@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Вязаная Картинка — AI</title>
+  <style>
+    body { font-family: sans-serif; background: #f5f5ff; padding: 40px; }
+    .box { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 12px; }
+    button { padding: 12px 20px; border: none; background: #6b5cff; color: white; border-radius: 8px; cursor: pointer; }
+    button:disabled { background: #aaa; }
+    img { width: 100%; margin-top: 20px; border-radius: 12px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Создать вязаную картинку</h2>
+    <input type="file" id="file" accept="image/*">
+    <br><br>
+    <button id="generateBtn">Создать</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    document.getElementById("generateBtn").onclick = async () => {
+      const fileInput = document.getElementById("file");
+      if (!fileInput.files.length) return alert("Загрузите фото");
+
+      const btn = document.getElementById("generateBtn");
+      btn.disabled = true;
+      btn.innerText = "Генерация...";
+
+      const formData = new FormData();
+      formData.append("image", fileInput.files[0]);
+
+      const res = await fetch("ТУТ_БУДЕТ_URL_БЭКЕНДА/api/generate", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+      btn.disabled = false;
+      btn.innerText = "Создать";
+
+      if (data.url) {
+        document.getElementById("result").innerHTML =
+          `<img src="${data.url}" alt="result">`;
+      } else {
+        alert("Ошибка генерации");
+      }
+    };
+  </script>
+</body>
+</html>
