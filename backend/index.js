@@ -10,6 +10,11 @@ const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN
 });
 
+// Корневой маршрут, чтобы не было "Cannot GET /"
+app.get("/", (req, res) => {
+  res.send("Server is running");
+});
+
 app.post("/api/generate", upload.single("image"), async (req, res) => {
   try {
     const prompt = `
@@ -33,4 +38,6 @@ Use the uploaded image as a primary reference and create a handmade thread art p
   }
 });
 
-app.listen(3000, () => console.log("Server started on 3000"));
+// Railway-friendly порт
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log("Server started on " + PORT));
