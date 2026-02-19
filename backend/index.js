@@ -10,7 +10,7 @@ const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN
 });
 
-// Корневой маршрут, чтобы не было "Cannot GET /"
+// Корневой маршрут
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
